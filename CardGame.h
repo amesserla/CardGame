@@ -145,24 +145,26 @@ class GameState
 public:
 	GameState(Player& player1, Player& player2, Deck& FullDeck);
 
-	Player findWinner(Card lead, Card follow);
+	Player findWinner();
 	bool PlayerLeads();
 	Card& GetDecree();
 	bool IsPlayable(Hand handToCheck, Card cardToCheck);
 	void nextTurn();
 	Player& isTurn();
 	void tryToPlay(int triedToPlay);
+	bool turn;
+	Card lead;
+	Card follow;
 
 
 private:
-	bool turn;														// turn is true if a lead card has been played this round.
-	int cardsPlayed;
+															// turn is true if a lead card has been played this round.
 	Player& p1;
 	Player& p2;
 	Deck& deck;
 	Card decree;
-	Card follow;
-	Card lead;
+//	Card follow;
+//	Card lead;
 	bool playerLeads = true;
 	
 

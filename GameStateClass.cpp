@@ -4,7 +4,7 @@
 #include<tuple>
 #include<unordered_map>
 
-GameState::GameState(Player& player1, Player& player2, Deck& FullDeck): p1(player1), p2(player2), deck(FullDeck), turn(false), cardsPlayed(0), lead(Card()), follow(Card()) {
+GameState::GameState(Player& player1, Player& player2, Deck& FullDeck): p1(player1), p2(player2), deck(FullDeck), turn(false), lead(Card()), follow(Card()) {
 	deck.ShuffleAndDeal(p1, p2);
 	decree = deck.flipACard();
 	
@@ -12,7 +12,7 @@ GameState::GameState(Player& player1, Player& player2, Deck& FullDeck): p1(playe
 
 }
 
-Player GameState::findWinner(Card lead, Card follow) {
+Player GameState::findWinner() {
 	if (lead.Suit() == follow.Suit() && lead.Value() > follow.Value()) {
 		if (playerLeads) {
 			std::cout << "Case A\n";
@@ -90,7 +90,7 @@ bool GameState::IsPlayable(Hand handToCheck, Card cardToCheck) {
 }
 
 Player& GameState::isTurn() {
-	if ((playerLeads && cardsPlayed == 0) || !playerLeads && cardsPlayed == 1) {
+	if ((playerLeads && !turn) || (!playerLeads && turn)) {
 		return p1;
 	}
 	else {
@@ -101,15 +101,16 @@ Player& GameState::isTurn() {
 void GameState::tryToPlay(int triedToPlayPosition) {
 	Player& playerWithTurn = isTurn();
 	Hand& playerWithTurnHand = playerWithTurn.ShowHand();
-	Card& triedToPlayCard = playerWithTurnHand.ReadCard(triedToPlayPosition);
+	Card triedToPlayCard = playerWithTurnHand.ReadCard(triedToPlayPosition);
 	if (IsPlayable(playerWithTurnHand, playerWithTurnHand.ReadCard(triedToPlayPosition))) {
-		nextTurn();
 		playerWithTurnHand.CardOut(triedToPlayPosition);
 		if (turn){
 			follow = triedToPlayCard;
+			nextTurn();
 		}
 		else {
 			lead = triedToPlayCard;
+			nextTurn();
 		}
 	}
 }

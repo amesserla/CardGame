@@ -37,11 +37,13 @@ int main()
 				window.close();
 			}
 			if (event.type == sf::Event::MouseButtonPressed) {
+				std::cout << "It is " << newGame.isTurn().GetName() << " turn.\n";
 				for(int i = 0; i<newGame.isTurn().ShowHand().HandSize(); i++){
 					if (newGame.isTurn()
 						       .ShowHand()
 						       .ReadCard(i)
 						       .IsHovered(sf::Mouse::getPosition(window))) {
+						std::cout << i << '\n';
 						newGame.tryToPlay(i);
 						countPlayedCards++;
 					}
@@ -52,7 +54,7 @@ int main()
 	
 
 		if (countPlayedCards == 2) {
-			std::cout << newGame.findWinner(leadCard, followCard).GetName() << " wins!\n";
+			std::cout << newGame.findWinner().GetName() << " wins!\n";
 			countPlayedCards = 0;
 			if (human.ShowHand().HandSize() == 0) {
 				std::cout << fullDeck.position << '\n';
@@ -70,6 +72,17 @@ int main()
 
 		window.clear();
 		window.draw(shape);
+
+		if (newGame.turn) {
+			if (newGame.PlayerLeads()) {
+				newGame.lead.setPosition(0.f, 500.f);
+			}
+			else {
+				newGame.lead.setPosition(0.f, 200.f);
+			}
+			window.draw(newGame.lead);
+		}
+		
 
 		for (int i = 0; i < human.ShowHand().HandSize(); i++) {
 			Card& cardtodraw = human.ShowHand().ReadCard(i);

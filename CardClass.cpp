@@ -13,7 +13,7 @@ sf::Texture Card::texture;
 
 
 void Card::LoadSheet() {
-    texture.loadFromFile("C:\\Users\\amess\\Desktop\\realDeck.png");
+    texture.loadFromFile("realDeck.png");
 }
 
 std::string Card::Suit() {
