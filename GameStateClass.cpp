@@ -1,10 +1,10 @@
-#include "StrategicWarCardGame.h"
+#include "CardGame.h"
 #include <iostream>
 #include <utility>
 #include<tuple>
 #include<unordered_map>
 
-GameState::GameState(Player& player1, Player& player2, Deck& FullDeck): p1(player1), p2(player2), deck(FullDeck), turn(0), cardsPlayed(0) {
+GameState::GameState(Player& player1, Player& player2, Deck& FullDeck): p1(player1), p2(player2), deck(FullDeck), turn(false), cardsPlayed(0), lead(Card()), follow(Card()) {
 	deck.ShuffleAndDeal(p1, p2);
 	decree = deck.flipACard();
 	
@@ -63,29 +63,34 @@ Card& GameState::GetDecree() {
 }
 
 void GameState::nextTurn() {
-	turn = not turn;
+	turn = !turn;
 	return;
 }
 
 bool GameState::IsPlayable(Hand handToCheck, Card cardToCheck) {
-	std::cout << "lead card is " << lead.CardName() << "and card to check is " << cardToCheck.CardName() << '\n';
-	std::cout << "there are " << handToCheck.countSuit(lead.Suit()) << " " << lead.Suit() << "'s in the hand to check.\n";
-	if (not turn) {
+	
+	if (!turn) {
 		return true;
 	}
 	else if (handToCheck.countSuit(lead.Suit()) == 0) {
+		std::cout << "lead card is " << lead.CardName() << "and card to check is " << cardToCheck.CardName() << '\n';
+		std::cout << "there are " << handToCheck.countSuit(lead.Suit()) << " " << lead.Suit() << "'s in the hand to check.\n";
 		return true;
 	}
 	else if (cardToCheck.Suit() == lead.Suit()) {
+		std::cout << "lead card is " << lead.CardName() << "and card to check is " << cardToCheck.CardName() << '\n';
+		std::cout << "there are " << handToCheck.countSuit(lead.Suit()) << " " << lead.Suit() << "'s in the hand to check.\n";
 		return true;
 	}
 	else {
+		std::cout << "lead card is " << lead.CardName() << "and card to check is " << cardToCheck.CardName() << '\n';
+		std::cout << "there are " << handToCheck.countSuit(lead.Suit()) << " " << lead.Suit() << "'s in the hand to check.\n";
 		return false;
 	}
 }
 
 Player& GameState::isTurn() {
-	if ((playerLeads && cardsPlayed == 0) || not playerLeads and cardsPlayed == 1) {
+	if ((playerLeads && cardsPlayed == 0) || !playerLeads && cardsPlayed == 1) {
 		return p1;
 	}
 	else {
@@ -93,16 +98,18 @@ Player& GameState::isTurn() {
 	}
 }
 
-//void GameState::tryToPlay(int triedToPlayPosition) {
-//	Player& playerWithTurn = isTurn();
-//	Hand& playerWithTurnHand = playerWithTurn.ShowHand();
-//	if (IsPlayable(triedToPlay)) {
-//		nextTurn();
-//		Card& 
-//		playerWithTurnHand.CardOut(triedToPlayPosition);
-//		if (turn){
-//			follow = 
-//
-//		}
-//	}
-//}
+void GameState::tryToPlay(int triedToPlayPosition) {
+	Player& playerWithTurn = isTurn();
+	Hand& playerWithTurnHand = playerWithTurn.ShowHand();
+	Card& triedToPlayCard = playerWithTurnHand.ReadCard(triedToPlayPosition);
+	if (IsPlayable(playerWithTurnHand, playerWithTurnHand.ReadCard(triedToPlayPosition))) {
+		nextTurn();
+		playerWithTurnHand.CardOut(triedToPlayPosition);
+		if (turn){
+			follow = triedToPlayCard;
+		}
+		else {
+			lead = triedToPlayCard;
+		}
+	}
+}

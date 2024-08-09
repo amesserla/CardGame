@@ -1,4 +1,4 @@
-#include "StrategicWarCardGame.h"
+#include "CardGame.h"
 #include <iostream>
 
 Player::Player(int pl_number, std::string name, Hand pl_hand, int score) :

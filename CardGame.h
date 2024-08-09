@@ -151,7 +151,7 @@ public:
 	bool IsPlayable(Hand handToCheck, Card cardToCheck);
 	void nextTurn();
 	Player& isTurn();
-	void tryToPlay(Card triedToPlay);
+	void tryToPlay(int triedToPlay);
 
 
 private:
