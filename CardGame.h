@@ -5,6 +5,27 @@
 #include <iostream>
 #include <unordered_map>
 
+class textBox : public sf::Drawable {
+public: 
+	textbox(int i);
+	bool isHovered(sf::Vector2i mp);
+	void onClick();
+	void setText(std::string);
+	bool isHovered(sf::Vector2f mp)
+	bool isSelected;
+private:
+	sf::Text text;
+	sf::Vector2f position;
+	sf::Rect background;
+
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
+
+	}
+
+};
+
+
 class Card : public sf::Sprite {
 	int value;
 	std::string suit;
