@@ -6,14 +6,17 @@ const std::vector<std::string> Deck::suits = { "C", "D", "H", "S" };
 const std::vector<int> Deck::values = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
 
+
 int main()
-{
+{	
+	sf::Clock clock;
+	float pauseBreakLength = 2.f;
+	float smallPauselength = .5;
 	Deck fullDeck = Deck();
 	Player human = Player();
 	Player computer = Player(2);
 	Card::LoadSheet();
 	GameState newGame(human, computer, fullDeck);
-	bool isLead = true;
 	Card leadCard;
 	Card followCard;
 	Card DecreeCard = newGame.GetDecree();
@@ -44,13 +47,20 @@ int main()
 						       .ReadCard(i)
 						       .IsHovered(sf::Mouse::getPosition(window))) {
 						std::cout << i << '\n';
-						newGame.tryToPlay(i);
-						countPlayedCards++;
+						if (newGame.tryToPlay(i)) {
+							std::cout << "card played \n";
+							countPlayedCards++;
+						}
 					}
 						
 				}
 			}
 		}
+		if ((countPlayedCards == 0 && not newGame.PlayerLeads()) || (countPlayedCards == 1 && newGame.PlayerLeads())) {
+			newGame.playBestCard(computer);
+			countPlayedCards++;
+		}
+		bool needPause = false;
 	
 
 		if (countPlayedCards == 2) {
@@ -68,41 +78,24 @@ int main()
 			human.ShowHand().Order();
 		}
 
+		if (countPlayedCards == 0 && not newGame.PlayerLeads()) {
+			needPause = true;
+		}
+
+
+
 
 
 		window.clear();
 		window.draw(shape);
 
-		if (newGame.turn) {
-			if (newGame.PlayerLeads()) {
-				newGame.lead.setPosition(0.f, 500.f);
-			}
-			else {
-				newGame.lead.setPosition(0.f, 200.f);
-			}
-			window.draw(newGame.lead);
-		}
-		
+		newGame.printGameState(window);
 
-		for (int i = 0; i < human.ShowHand().HandSize(); i++) {
-			Card& cardtodraw = human.ShowHand().ReadCard(i);
-			cardtodraw.setPosition(200 + 100.f * i, 400.f);
-
-
-			window.draw(cardtodraw);
-
-		}
-		for (int i = 0; i < computer.ShowHand().HandSize(); i++) {
-			Card& computerToDraw = computer.ShowHand().ReadCard(i);
-			computerToDraw.setPosition(200 + 100.f * i, 200.f);
-
-			window.draw(computerToDraw);
-		}
-
-		window.draw(leadCard);
-		window.draw(followCard);
-		window.draw(DecreeCard);
 		window.display();
+		if (needPause) {
+			clock.restart();
+			while (clock.getElapsedTime().asSeconds() < pauseBreakLength) {}
+		}
 	}
 
 

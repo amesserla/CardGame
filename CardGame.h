@@ -151,10 +151,12 @@ public:
 	bool IsPlayable(Hand handToCheck, Card cardToCheck);
 	void nextTurn();
 	Player& isTurn();
-	void tryToPlay(int triedToPlay);
+	bool tryToPlay(int triedToPlay);
 	bool turn;
 	Card lead;
 	Card follow;
+	void printGameState(sf::RenderWindow& window);
+	void playBestCard(Player& computerturn);
 
 
 private:
@@ -166,6 +168,7 @@ private:
 //	Card follow;
 //	Card lead;
 	bool playerLeads = true;
+	int cardsPlayed = 0;
 	
 
 };
