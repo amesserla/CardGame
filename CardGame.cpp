@@ -10,7 +10,7 @@ const std::vector<int> Deck::values = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1
 int main()
 {	
 	sf::Clock clock;
-	float pauseBreakLength = 2.f;
+	float pauseBreakLength = 3.f;
 	float smallPauselength = .5;
 	Deck fullDeck = Deck();
 	Player human = Player();

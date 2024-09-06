@@ -42,3 +42,7 @@ void Player::PlayCard(int i) {
 Hand& Player::ShowHand() {
 	return hand;
 }
+
+int Player::Score() {
+	return score;
+}
