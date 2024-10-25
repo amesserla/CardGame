@@ -150,7 +150,7 @@ void GameState::printGameState(sf::RenderWindow& window) {
 
 	for (int i = 0; i < p1.ShowHand().HandSize(); i++) {
 		Card& cardtodraw = p1.ShowHand().ReadCard(i);
-		cardtodraw.setPosition(200 + 100.f * i, 400.f);
+		cardtodraw.setPosition(200 + 100.f * i, 400.f - 5*cardtodraw.IsHovered(sf::Mouse::getPosition(window))*GameState::IsPlayable(p1.ShowHand(),cardtodraw));
 
 
 		window.draw(cardtodraw);

@@ -74,6 +74,11 @@ void Card::SetCardSprite() {
 }
 
 bool Card::IsHovered(sf::Vector2i mp) {
-    return getGlobalBounds().contains(mp.x, mp.y);
+    sf::Rect<float> innerBuffered;
+    innerBuffered.left = getGlobalBounds().left;
+    innerBuffered.width = getGlobalBounds().width - 5;
+    innerBuffered.top = getGlobalBounds().top;
+    innerBuffered.height = getGlobalBounds().height - 5;
+    return innerBuffered.contains(mp.x, mp.y);
 }
 
