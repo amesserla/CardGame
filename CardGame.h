@@ -53,7 +53,7 @@ public:
 	// Make the back of a card show with nonsense values, i.e. for draw pile or computer hand
 	Card();
 
-	//iterate through suits and values to make the deck
+	//Make a card with the given suit and value,  such as when initializing the deck.
 	Card(std::string the_suit, int the_value);
 
 	//define < so that .sort() method works on hands
@@ -69,7 +69,11 @@ public:
 	std::string CardName();
 
 	int Value();
+
+	//call once to get texture set for cards
 	static void LoadSheet();
+
+	//call once per card to set the image on the sprite
 	void SetCardSprite();
 
 };
@@ -79,6 +83,7 @@ public:
 
 class Hand {
 	std::vector<Card> cards;
+	//used to track number of each suit in the hand, for example to determine which cards are playable
 	std::unordered_map<std::string, int> suitCounts = {
 		{"C",0},{"D",0},{"H",0},{"S",0}
 	};
@@ -96,7 +101,7 @@ public:
 	//place cards in hand in order, see operator< in Card class
 	void Order();
 
-	//add card to hand such as in dealing or changing draw pile
+	//add card to hand such as in dealing
 	void CardIn(Card card);
 
 	//remove card in ith position from hand
@@ -110,6 +115,7 @@ public:
 	//std::cout card names in hand, for debugging mostly
 	void PrintHand();
 
+	//returns number of cards of the given suit in hand, for example to determine playble cards.
 	int countSuit(std::string suitcheck);
 };
 
@@ -134,7 +140,7 @@ public:
 	int GetNumber();
 	void PlayCard(int i);
 	std::string GetName();
-	int Score;
+	int Score();
 	
 };
 
@@ -157,6 +163,7 @@ public:
 		}
 	}
 	
+	//take a card out of the deck and return it
 	Card& flipACard() {
 		Card& newCard = ReadCard(position);
 		position++;
@@ -166,6 +173,7 @@ public:
 		std::cout << position << '\n';
 		return newCard;
 	}
+
 
 	void ShuffleAndDeal(Player& P1, Player& P2) {
 		Shuffle();
@@ -183,6 +191,7 @@ public:
 class GameState
 {
 public:
+
 	GameState(Player& player1, Player& player2, Deck& FullDeck);
 
 	Player findWinner();
@@ -191,21 +200,21 @@ public:
 	bool IsPlayable(Hand handToCheck, Card cardToCheck);
 	void nextTurn();
 	Player& isTurn();
-	void tryToPlay(int triedToPlay);
-	bool turn;
-	Card lead;
-	Card follow;
+	bool tryToPlay(int triedToPlay);
+	void printGameState(sf::RenderWindow& window);
+	void playBestCard(Player& computerturn);
 
 
 private:
-															// turn is true if a lead card has been played this round.
+	bool turn;													// turn is true if a lead card has been played this round.
 	Player& p1;
 	Player& p2;
 	Deck& deck;
 	Card decree;
-//	Card follow;
-//	Card lead;
+	Card follow;
+	Card lead;
 	bool playerLeads = true;
+	int cardsPlayed = 0;
 	
 
 };
