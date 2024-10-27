@@ -4,6 +4,18 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+////////////////////
+// To set up a text box, need to use sf::Font::loadFromFile to get a font .ttf file
+// Then constructors below to make buttons with custom text, or default player boxes
+// 
+//
+// 
+// Change Colors for backgrounds to look cleaner at some point, maybe add a border to the
+// rectangles for buttons?
+//
+////////////////////
+
+
 textBox::textBox(std::string newText,
 	sf::Font& font,
 	sf::Vector2f position,
@@ -64,12 +76,13 @@ void textBox::onClick() {
 		case Button:
 			doButtonThing();
 			break;
-		case NameSlot: 
-		{
+		case NameSlot:                                  // Eventually want to do this in
+		{												// game window instead of terminal
+			std::cout << "Please enter player name: ";
 			std::cin >> textString;
-			std::cout << "the new name is going to hopefully be: " << textString << '\n';
+
 			setText(textString);
-			std::cout << textString << '\n';
+
 			//resize background
 
 			break;

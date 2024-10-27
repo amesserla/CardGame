@@ -137,21 +137,11 @@ int main() {
 				window.close();
 			}
 			if (event.type == sf::Event::MouseButtonPressed) {
-				std::cout << "Mouse Click \n";
+
 				for (auto& button : buttonList) {
-					if (button.boxType == Button && 
-						button.isHovered(sf::Mouse::getPosition(window))) {
+					if (button.isHovered(sf::Mouse::getPosition(window))) {
 						button.onClick();
-						std::cout << "Button Pressed. Did it work?\n";
-					}
-					else if (button.boxType == NameSlot &&
-						button.isHovered(sf::Mouse::getPosition(window))) {
-						std::cout << "please enter a name?:\n";
-						button.onClick();
-						std::cout << "printing new button textString: " << button.textString << '\n';
-					}
-					else {
-						std::cout << button.textString << '\n';
+
 					}
 				}
 			}
