@@ -15,7 +15,7 @@ Currently the game works as follows. A standard deck of 52 cards is shuffled and
 - [ ] Use the SFML view class and make a help button.
 - [ ] Add a Menu.
 - [ ] Lock the screen size so that things don't get broken by resizing.
-- [ ] Incorporate a bot player so that a user can play against the computer.
+- [x] Incorporate a bot player so that a user can play against the computer.
 - [ ] Make a hint button that highlights playable cards or,
      make playable cards hover slightly when moused over (or both).
 
