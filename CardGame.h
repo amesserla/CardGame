@@ -4,23 +4,42 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <unordered_map>
+#include <functional>
+
+enum textBoxType {
+	Button = 0,
+	NameSlot = 1,
+};
 
 class textBox : public sf::Drawable {
 public: 
-	textbox(int i);
+
+	textBox(std::string newText, sf::Font& font, sf::Vector2f position, std::function<void()> buttonThing);
+	textBox(int i, sf::Font& font);
+
 	bool isHovered(sf::Vector2i mp);
 	void onClick();
-	void setText(std::string);
-	bool isHovered(sf::Vector2f mp)
-	bool isSelected;
+	void setText(std::string newText);
+	bool isHovered(sf::Vector2f mp);
+
+	textBoxType boxType;
+	std::function<void()> doButtonThing;
+	std::string textString;
+
+
 private:
 	sf::Text text;
 	sf::Vector2f position;
-	sf::Rect background;
+	sf::Vector2f backgroundSize;
+	sf::RectangleShape background;
+	
+	
+ 	bool isSelected;
 
-
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
-
+void draw(sf::RenderTarget& target, sf::RenderStates states) const 
+	{
+		target.draw(background);
+		target.draw(text);
 	}
 
 };
