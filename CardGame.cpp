@@ -29,6 +29,8 @@ int main()
 	shape.setFillColor(sf::Color (8, 117, 25));
 	std::function<void()> closeWindow = [&window](void) {window.close(); };
 
+	int countPlayedCards = 0;
+
 
 
 
